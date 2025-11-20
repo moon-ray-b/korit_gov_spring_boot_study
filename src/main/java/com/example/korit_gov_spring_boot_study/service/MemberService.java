@@ -1,0 +1,36 @@
+package com.example.korit_gov_spring_boot_study.service;
+
+import com.example.korit_gov_spring_boot_study.dto.AddMemberReqDto;
+import com.example.korit_gov_spring_boot_study.entity.Member;
+import com.example.korit_gov_spring_boot_study.repository.MemberRepository;
+
+import java.util.List;
+
+public class MemberService {
+    private static MemberService instance;
+    private MemberRepository memberRepository;
+
+    private MemberService(){
+        memberRepository = MemberRepository.getInstance();
+    }
+
+
+    public static MemberService getInstance(){
+        if(instance == null){
+            instance = new MemberService();
+        }
+        return instance;
+    }
+
+    public Boolean isDuplicatedNmae(String name){
+        Member member = memberRepository.findMemberByName(name);
+        return member != null;
+    }
+    public void addMember(AddMemberReqDto addMemberReqDto){
+        memberRepository.addMember((addMemberReqDto.toEntity()));
+    }
+
+    public List<Member> getMemberAll(){
+        return memberRepository.getMemberAll();
+    }
+}

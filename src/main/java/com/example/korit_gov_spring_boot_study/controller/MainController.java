@@ -1,5 +1,7 @@
 package com.example.korit_gov_spring_boot_study.controller;
 
+import com.example.korit_gov_spring_boot_study.dto.AddMemberReqDto;
+import com.example.korit_gov_spring_boot_study.service.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Controller;
@@ -24,10 +26,16 @@ class UserDto{
 @Controller
 public class MainController {
     private List<UserDto> users = new ArrayList<>();
+    private MemberService memberService = MemberService.getInstance();
+
+    public MainController() {
+        memberService = MemberService.getInstance();
+    }
 
     //동적인 요소가 없는 정적 웹페이지
     @GetMapping("/main")
     public String getMain() {
+
         return "main.html";
     }
 
@@ -62,15 +70,22 @@ public class MainController {
 
     @PostMapping("/signup")
     public String signupSubmit(@RequestParam String name, @RequestParam int age, Model model) {
-        UserDto userDto = new UserDto(users.size() + 1, name, age);
-        users.add(userDto);
+//        UserDto userDto = new UserDto(users.size() + 1, name, age);
+//        users.add(userDto);
+     if (memberService.isDuplicatedNmae(name)) {
+        model.addAttribute("message", name + "중복된 이름입니다");
+        return "result-page";
+    }
+        AddMemberReqDto addMemberReqDto = new AddMemberReqDto(name, age);
+     memberService.addMember(addMemberReqDto);
+
         model.addAttribute("message", name + "님, 가입을 환영합니다.");
         return "result-page";
     }
 
     @GetMapping("/users")
     public String getUsers(Model model) {
-        model.addAttribute("users", users);
+        model.addAttribute("users", memberService.getMemberAll());
         return "users";
     }
 }
