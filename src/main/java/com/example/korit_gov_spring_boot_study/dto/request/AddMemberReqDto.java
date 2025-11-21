@@ -1,4 +1,4 @@
-package com.example.korit_gov_spring_boot_study.dto;
+package com.example.korit_gov_spring_boot_study.dto.request;
 
 import com.example.korit_gov_spring_boot_study.entity.Member;
 import lombok.AllArgsConstructor;

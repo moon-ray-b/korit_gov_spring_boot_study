@@ -1,6 +1,6 @@
 package com.example.korit_gov_spring_boot_study.service;
 
-import com.example.korit_gov_spring_boot_study.dto.AddMemberReqDto;
+import com.example.korit_gov_spring_boot_study.dto.request.AddMemberReqDto;
 import com.example.korit_gov_spring_boot_study.entity.Member;
 import com.example.korit_gov_spring_boot_study.repository.MemberRepository;
 
